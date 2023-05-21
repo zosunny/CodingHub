@@ -11,22 +11,14 @@ public class Solution {
 	static int minAns;
 	
 	static int[][] arr;
-	static int[] input;
 	
 	public static boolean isPass(int[] input) {
 		// 모든 각각의 열에 대해 성능기준 통과하는 지 검사
 		for(int j=0; j<W; j++) {
 			int cnt = 0;
 			for(int i=0; i<D-1; i++) {
-				int now = input[i];
-				int next = input[i+1];
-				// 해당 행이 원본 값을 가지면
-				if(now == -1) {
-					now = arr[i][j];
-				}
-				if(next == -1) {
-					next = arr[i+1][j];
-				}
+				int now = input[i] == -1 ? arr[i][j] : input[i];
+				int next = input[i+1] == -1 ? arr[i+1][j] : input[i+1];
 				// 한 열중에서 앞,뒤 행의 값이 같으면
 				if(now == next) {
 					cnt++;
@@ -50,19 +42,20 @@ public class Solution {
 	// 모든 행에 약품 A넣는거(0), B넣는거(1), 안넣는거(-1) 완탐
 	public static void subset(int cnt, int[] select) {
 		if(cnt == D) {
-			// 각 행에 대한 정보를 담을 1차원 배열
-			input = new int[D];
 			int tmp = 0;
 			for(int i=0; i<D; i++) {
-				input[i] = select[i];
 				// 약품 투입 횟수
 				if(select[i]!=-1) {
 					tmp++;
 				}
+				// 가지치기. 현재 투입횟수가 최솟값보다 크면 걍 안봐도 돼
+				if(tmp>=minAns) {
+					return;
+				}
 			}
 			// 성능검사 해보자
 			// 성능검사 통과했을 때만 약품 투입 횟수 최솟값 갱신
-			if(isPass(input)) {
+			if(isPass(select)) {
 				minAns = Math.min(minAns, tmp);
 			}
 			return;
@@ -100,15 +93,15 @@ public class Solution {
 			}
 			
 			// 처음 검사할 모든 행에 대한 정보 -> 원본이니까 -1로 채움
-			input = new int[D];
-			Arrays.fill(input, -1);
+			int[] select = new int[D];
+			Arrays.fill(select, -1);
 			
 			// 처음에 성능검사 통과하는 지 확인
-			if(isPass(input)) {
+			if(isPass(select)) {
 				minAns = 0;
 			// 모든 행에 약품 넣어보며 통과가능한 최소 투입 횟수 탐색
 			}else {
-				int[] select = new int[D];
+				select = new int[D];
 				subset(0, select);
 			}
 			sb.append("#" + (t+1) + " " + minAns + "\n");
