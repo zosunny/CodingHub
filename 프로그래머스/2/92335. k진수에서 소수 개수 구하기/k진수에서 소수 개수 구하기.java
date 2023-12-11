@@ -34,19 +34,17 @@ class Solution {
         
         // 0을 기준으로 자른 숫자 소수 판별
         // 이때 뒤에서부터 탐색
+        // 1,000,000을 2진수로 변환하면 int범위 초과해 오버플로우 발생
         long tmp = 0;
         for(int i=list.size()-1; i>=-1; i--){
             // 0이면 현재자리까지의 수가 소수인지 판별
             if(i == -1 || list.get(i) == 0){
-                // System.out.println("tmp: " + tmp);
                 if(tmp != 0 && tmp != 1){
                     isPrime(tmp);
                 }
                 tmp = 0;
-                // System.out.println("-----------");
             }else{
                 tmp = tmp * 10 + list.get(i);
-                // System.out.println("i: " + i + ", tmp: " + tmp);
             }
         }
         
