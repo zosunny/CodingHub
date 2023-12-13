@@ -2,17 +2,7 @@ import java.util.*;
 
 class Solution {
     
-    static class Point {
-        String menu;
-        int num;
-        Point (String menu, int num){
-            this.menu = menu;
-            this.num = num;
-        }
-    }
-    
     static int len;
-    // static int maxNum = Integer.MIN_VALUE();
     static boolean[][] check;
     static Map<String, Integer> map;
     static String[] answer;
@@ -26,7 +16,7 @@ class Solution {
                     makecourse += dish[i];
                 }
             }
-            // 2개 이상이고, course에 정의된 개수인지 확인
+            // course에 정의된 개수인지 확인
             int c = makecourse.length();
             boolean flag = false;
             for(int k=0; k<course.length; k++){
@@ -37,7 +27,6 @@ class Solution {
             // 맞으면 map에 저장
             if(flag){
                 map.put(makecourse, map.getOrDefault(makecourse, 0) + 1);
-                // System.out.println("만들어진 코스: " + makecourse);
             }
             return;
         }
@@ -59,21 +48,14 @@ class Solution {
                         tmp += Character.toString((char)(l + 'A'));
                     }
                 }
-                // System.out.println("i: " + i + ", i+j: " + (i+j) + ", tmp: " + tmp);
                 // 해당 tmp로 만들 수 있는 모든 부분집합
                 int tmplen = tmp.length();
                 boolean[] select = new boolean[tmplen];
                 String[] dish = new String[tmplen];
                 dish = tmp.split("");
                 subset(0, select, dish, tmplen, course);
-                // System.out.println("--------------------");
             }
         }
-        
-        // // map에 들은 거 출력
-        // for(String key : map.keySet()){
-        //     System.out.println("key: " + key + ", 개수: " + map.get(key));
-        // }
         
         // 각 코스 길이별 최대 길이 저장
         int[] maxCourse = new int[11];
@@ -92,36 +74,6 @@ class Solution {
         for(int i=0; i<list.size(); i++){
             answer[i] = list.get(i);
         }
-        
-        
-//         // map에서 코스 길이별 최고빈도의 메뉴 구성만 선택
-//         Point[] coursemenu = new Point[11];
-//         for(int i=0; i<11; i++){
-//             coursemenu[i] = new Point("", 0);
-//         }
-//         ArrayList<String> list = new ArrayList<>();
-//         for(String key : map.keySet()){
-//             // 만약 현재 저장한 빈도보다 더 큰 빈도라면 swap
-//             if(coursemenu[key.length()].num < map.get(key)){
-                
-//                 coursemenu[key.length()] = new Point(key, map.get(key));
-//             }
-//             // 만약 현재 저장한 빈도와 같다면 answer에 저장
-//             // else if(coursemenu[key.length()].num == map.get(key)){
-//             //     list.add(key);
-//             // }
-//         }
-        // // 선택된 메뉴들 리스트에 한 번 옮겨 담기
-        // for(int i=0; i<11; i++){
-        //     if(coursemenu[i].num != 0){
-        //         list.add(coursemenu[i].menu);
-        //     }
-        // }
-        // // answer 저장
-        // answer = new String[list.size()];
-        // for(int i=0; i<list.size(); i++){
-        //     answer[i] = list.get(i);
-        // }
         // 오름차순 정렬
         Arrays.sort(answer);
     }
