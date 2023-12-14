@@ -36,17 +36,14 @@ class Solution {
                 if(map.get(tmp[1]).in != -1){
                     int tmpTotal = tmpOut - map.get(tmp[1]).in;
                     map.put(tmp[1], new Time(-1, tmpOut, map.get(tmp[1]).total + tmpTotal));
-                    System.out.println("기존 차량 출차: " + tmp[1] + ", 누적 주차: " + (map.get(tmp[1]).total) + ", 입차: " + map.get(tmp[1]).in + ", 출차: " + tmpOut);
                 }
                 // 입차인 경우 -> 입차 시간 기록
                 else{
                     map.put(tmp[1], new Time(tmpIn, -1, map.get(tmp[1]).total));
-                    System.out.println("기존 차량 입차: " + tmp[1] + ", 누적 주차: " + map.get(tmp[1]).total + ", 입차: " + tmpIn + ", 출차: " + "-1");
                 }
             }
             // 만약 이전에 입/출차 기록이 없으면
             else{
-                System.out.println("신규 차량: " + tmp[1] + ", 입차: " + tmpIn );
                 map.put(tmp[1], new Time(tmpIn, -1, 0));
             }
         }
@@ -61,28 +58,25 @@ class Solution {
             // 입차 후 출차가 안된 경우
             if(map.get(key).in != -1){
                 totalTime += LAST_TIME - map.get(key).in;
-                System.out.println(key + " 누적주차: " + totalTime);
             }
             // 기본 요금을 넘은 경우 추가금 계산
             if(totalTime > fees[0]){
+                // 정수/정수 를 올림하면 0.1의 경우 0이 되므로 실수/실수 로 계산한 후 정수로 변환해야 함
                 add = (int)Math.ceil((float)(totalTime-fees[0]) / (float)fees[2]) * fees[3];
-                System.out.println(key + " 누적주차: " + totalTime + " 추가시간: " + (totalTime-fees[0]) + " 단위요금: " + Math.ceil((float)(totalTime-fees[0]) / (float)fees[2]));
-                System.out.println(key + " 추가요금: " + add);
             }
             int cost = fees[1] + add;
-            System.out.println(key + " 기본요금: " + fees[1] + " 추가요금: " + add);
             // arr 저장
             arr[cnt][0] = Integer.parseInt(key);
             arr[cnt++][1] = cost;
         }
         
-        // arr을 오름차순 정렬한 뒤 answer에 가격만 옮겨 담기
+        // arr 차량 번호로 오름차순 정렬한 뒤 answer에 가격만 옮겨 담기
         Arrays.sort(arr, (o1, o2) -> o1[0]==o2[0] ? o1[1]-o1[1] : o1[0]-o2[0]);
         answer = new int[map.size()];
         for(int i=0; i<map.size(); i++){
             answer[i] = arr[i][1];
         }
-        
+    
         return answer;
     }
 }
