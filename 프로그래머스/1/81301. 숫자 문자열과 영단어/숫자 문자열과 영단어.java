@@ -9,10 +9,11 @@ class Solution {
             boolean flag = false;
             for(int i=0; i<10; i++){
                 if(s.contains(word[i])){
-                    int idx = s.indexOf(word[i]);
-                    String before = s.substring(0, idx);
-                    String after = s.substring(idx+word[i].length());
-                    s = before + Integer.toString(i) + after;
+                    // int idx = s.indexOf(word[i]);
+                    // String before = s.substring(0, idx);
+                    // String after = s.substring(idx+word[i].length());
+                    // s = before + Integer.toString(i) + after;
+                    s = s.replaceAll(word[i], Integer.toString(i));
                     flag = true;
                 }
             }
