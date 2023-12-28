@@ -6,7 +6,6 @@ class Solution {
         int len = 0;        // 현재 차례
         int tube = p;       // 튜브 차례
         
-        
         // t*m 수 까지 게임 진행
         for(int i=0; i<=t*m; i++){
             // n진수로 변환
@@ -23,8 +22,6 @@ class Solution {
                 }
             }
         }
-        
-        
         return answer;
     }
 }
