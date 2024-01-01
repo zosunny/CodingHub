@@ -12,13 +12,6 @@ class Solution {
         // 존재하지 않을 때
         if(!map.containsKey(q)) return 0;
         
-        // System.out.println("문의 점수: " + score);
-        // System.out.print("지원자 점수: ");
-        // for(int i=0; i<map.get(q).size(); i++){
-        //     System.out.print(map.get(q).get(i) + " ");
-        // }
-        // System.out.println();
-        
         int start = 0;
         int end = map.get(q).size();
         
@@ -28,15 +21,12 @@ class Solution {
             // 중간값보다 왼쪽일 때
             if(score <= map.get(q).get(mid)){
                 end = mid;
-                // System.out.println("중간값보다 왼쪽 : start: " + start + ", end: " + end + ", mid: " + mid);
             }
             // 중간값보다 오른쪽일 때
             else{
                 start = mid + 1;
-                // System.out.println("중간값보다 오른쪽 : start: " + start + ", end: " + end + ", mid: " + mid);
             }
         }
-        // System.out.println("그래서 결과는 " + (map.get(q).size() - start));
         return map.get(q).size() - start;
     }
     
@@ -65,30 +55,19 @@ class Solution {
         len2 = query.length;
         int[] answer = new int[len2];
         
-        // info를 가지고 만들 수 있는 모든 쿼리 생성
+        // 1. info를 가지고 만들 수 있는 모든 쿼리 생성
         map = new HashMap<>();
         for(int i=0; i<len1; i++){
             String[] tmp = info[i].split(" ");
             makequery(tmp, "", 0);
         }
-        
-        // map 출력
-        // System.out.println("map 출력");
-        // for(String x : map.keySet()){
-        //     System.out.print(x + ": ");
-        //     for(int i=0; i<map.get(x).size(); i++){
-        //         System.out.print(map.get(x).get(i) + " ");
-        //     }
-        //     System.out.println();
-        // }
-        // System.out.println();
-        
-        // 점수를 기준으로 오름차순 정렬
+
+        // 2. 점수를 기준으로 오름차순 정렬
         for(List<Integer> x : map.values()){
             Collections.sort(x);
         }
         
-        // 문의조건 점수를 기준으로 이진탐색
+        // 3. 문의조건 점수를 기준으로 이진탐색
         int cnt = 0;
         for(int i=0; i<len2; i++){
             String[] tmp1 = query[i].split(" and ");
@@ -97,7 +76,6 @@ class Solution {
             int score = Integer.parseInt(tmp2[1]);
             
             answer[cnt++] = binarySearch(q, score);
-            // System.out.println("------------------------------");
         }
         
         return answer;
