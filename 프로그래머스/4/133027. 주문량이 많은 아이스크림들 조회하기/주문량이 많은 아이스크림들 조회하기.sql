@@ -1,0 +1,12 @@
+-- 코드를 입력하세요
+-- 7월 아이스크림 총 주문량 + 상반기의 아이스크림 총 주문량
+-- 큰 순서대로 상위 3개의 맛을 조회
+
+SELECT F.FLAVOR
+FROM FIRST_HALF F JOIN (SELECT SHIPMENT_ID, FLAVOR, SUM(TOTAL_ORDER) AS TOTAL_ORDER
+                        FROM JULY
+                        GROUP BY FLAVOR) J
+USING(SHIPMENT_ID)
+GROUP BY F.FLAVOR
+ORDER BY SUM(F.TOTAL_ORDER + J.TOTAL_ORDER) DESC
+LIMIT 3;
