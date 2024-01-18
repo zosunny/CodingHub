@@ -14,13 +14,10 @@ public class Main {
 		int[] arr = new int[3];
 		while(true) {
 			st = new StringTokenizer(br.readLine());
-			int a = Integer.parseInt(st.nextToken());
-			int b = Integer.parseInt(st.nextToken());
-			int c = Integer.parseInt(st.nextToken());
-			if(a == 0 && b == 0 && c == 0) return;
-			arr[0] = a;
-			arr[1] = b;
-			arr[2] = c;
+			arr[0] = Integer.parseInt(st.nextToken());
+			arr[1] = Integer.parseInt(st.nextToken());
+			arr[2] = Integer.parseInt(st.nextToken());
+			if(arr[0] == 0 && arr[1] == 0 && arr[2] == 0) return;
 			Arrays.sort(arr);
 			if(Math.pow(arr[2], 2) == Math.pow(arr[1], 2) + Math.pow(arr[0], 2)) {
 				System.out.println("right");
