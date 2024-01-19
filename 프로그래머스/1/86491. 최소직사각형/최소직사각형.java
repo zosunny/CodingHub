@@ -9,15 +9,8 @@ class Solution {
         int[] arr1 = new int[len];
         int[] arr2 = new int[len];
         for(int i=0; i<len; i++){
-            int a = sizes[i][0];
-            int b = sizes[i][1];
-            if(a > b) {
-                arr1[i] = a;
-                arr2[i] = b;
-            }else{
-                arr1[i] = b;
-                arr2[i] = a;
-            }
+            arr1[i] = Math.max(sizes[i][0], sizes[i][1]);
+            arr2[i] = Math.min(sizes[i][0], sizes[i][1]);
         }
         Arrays.sort(arr1);
         Arrays.sort(arr2);
