@@ -9,8 +9,7 @@ public class Main {
 	
 	static int N, M;
 	static int[][] arr;
-	static boolean[][] visited;
-	static int[][] check;
+	static int[][] visited;
 	static int[] dx = {-1, 1, 0, 0};
 	static int[] dy = {0, 0, -1, 1};
 	static int cheeses;
@@ -27,19 +26,18 @@ public class Main {
 	public static void bfs(int x, int y) {
 		Queue<Point> q = new LinkedList<>();
 		q.add(new Point(x, y));
-		visited[x][y] = true;
+		visited[x][y] = -1;
 		while(!q.isEmpty()) {
 			Point p = q.poll();
 			for(int i=0; i<4; i++) {
 				int nx = p.x + dx[i];
 				int ny = p.y + dy[i];
-				if(nx<0 || ny<0 || nx>=N || ny>=M || visited[nx][ny]) continue;
+				if(nx<0 || ny<0 || nx>=N || ny>=M || visited[nx][ny]==-1) continue;
 				// 바로 옆에 치즈가 있으면
-				if(arr[nx][ny] == 1) {
-					check[nx][ny] += 1;
-				}else {
+				if(arr[nx][ny] == 1) visited[nx][ny] += 1;
+				else {
 					q.add(new Point(nx, ny));
-					visited[nx][ny] = true;
+					visited[nx][ny] = -1;
 				}
 			}
 		}
@@ -62,19 +60,16 @@ public class Main {
 		}
 		
 		while(cheeses>0) {
-			check = new int[N][M];
-			visited = new boolean[N][M];
+			visited = new int[N][M];
 			bfs(0, 0);
-			// 녹는 치즈 삭제
 			for(int i=0; i<N; i++) {
 				for(int j=0; j<M; j++) {
-					if(check[i][j] >= 2) {
+					if(visited[i][j] >= 2) {
 						arr[i][j] = 0;
 						cheeses--;
 					}
 				}
 			}
-			// 걸리는 시간
 			answer++;
 		}
 		System.out.println(answer);
