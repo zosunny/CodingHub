@@ -46,8 +46,10 @@ public class Main {
         visit = new int[n+1];
         dfs(r);
         // 출력
+        StringBuilder sb = new StringBuilder();
         for(int i=1; i<n+1; i++){
-            System.out.println(visit[i]);
+            sb.append(visit[i] + "\n");
         }
+        System.out.println(sb.toString());
     }
 }
