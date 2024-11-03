@@ -1,33 +1,29 @@
-import java.util.*;
-
 class Solution {
     
-    static int ans = 1;
+    static int ans;
     static int answer;
-    static boolean flag;
-    static String[] dict = {"A", "E", "I", "O", "U"};
-    static List<String> list;
+    static String[] arr = {"A", "E", "I", "O", "U"};
     
-    public static void dfs(int cnt, String word, String tmp){
-        if(cnt >= 5) return;
-        for(int i=0; i<5; i++){
-            String now = tmp+dict[i];
-            if(now.equals(word)) {
-                answer = ans;
-                flag = true;
+    public static void dfs(String now, int cnt, int start, String word){
+        if(cnt == 5) {
+            if(now.equals(word)){
+            answer = ans;
             }
-            list.add(now);
-            System.out.println(now + " " + ans);
-            ans++;
-            dfs(cnt+1, word, now);
-            if(flag) return;
+            return;
+        }
+        if(now.equals(word)){
+            answer = ans;
+            return;
+        }
+        for(int i=start; i<5; i++){
+            ++ans;
+            dfs(now+arr[i], cnt+1, start, word);
         }
     }
     
     public int solution(String word) {
         
-        list = new ArrayList<>();
-        dfs(0, word, "");
+        dfs("", 0, 0, word);
         
         return answer;
     }
