@@ -2,43 +2,44 @@ import java.util.*;
 
 class Solution {
     
+    static int answer;
     static int len;
-    static int answer = Integer.MIN_VALUE;
+    static boolean[] select;
     
-    public static void calc(int k, int[] input, int[][] dungeons){
+    // 순서대로 탐험했을 때 탐험 가능한 던전 수 계산하는 메서드
+    public static void calc(int[] input, int k, int[][] dungeons){
         int cnt = 0;
-        // 순열의 순서대로 피로도 계산
         for(int i=0; i<len; i++){
-            int now = input[i];
-            int start = dungeons[now][0];
-            int use = dungeons[now][1];
-            if(k < start) continue;
-            k -= use;
+            int d = input[i];
+            // 현재 피로도보다 최소 필요 피로도가 작아야 함
+            if(k < dungeons[d][0]) continue;
+            k -= dungeons[d][1];
             cnt++;
         }
         answer = Math.max(answer, cnt);
     }
     
-    public static void permu(int cnt, int[] input, boolean[] select, int k, int[][] dungeons){
+    // 탐험할 던전의 순서 정하는 메서드
+    public static void permu(int cnt, int[] input, int k, int[][] dungeons){
         if(cnt == len){
-            calc(k, input, dungeons);
+            calc(input, k, dungeons);
             return;
         }
         for(int i=0; i<len; i++){
             if(select[i]) continue;
             input[cnt] = i;
             select[i] = true;
-            permu(cnt+1, input, select, k, dungeons);
+            permu(cnt+1, input, k, dungeons);
             select[i] = false;
         }
     }
     
     public int solution(int k, int[][] dungeons) {
-        len = dungeons.length;
         
+        len = dungeons.length;
         int[] input = new int[len];
-        boolean[] select = new boolean[len];
-        permu(0, input, select, k, dungeons);
+        select = new boolean[len];
+        permu(0, input, k, dungeons);
         
         return answer;
     }
