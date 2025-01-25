@@ -11,17 +11,16 @@ public class Main {
     static boolean flag;
     static List<Integer>[] list;
 
-    public static void dfs(int x, boolean[] visited, int[] color){
-        visited[x] = true;
+    public static void dfs(int x, int[] visited){
         for(int nx : list[x]){
-            if(color[nx] != 0 && color[nx] == color[x]){
+            if(visited[nx] != 0 && visited[nx] == visited[x]){
                 flag = true;
                 return;
             }
-            if(visited[nx]) continue;
-            if(color[x] == 1) color[nx] = -1;
-            else color[nx] = 1;
-            dfs(nx, visited, color);
+            if(visited[nx] != 0) continue;
+            if(visited[x] == 1) visited[nx] = -1;
+            else visited[nx] = 1;
+            dfs(nx, visited);
         }
     }
 
@@ -48,14 +47,12 @@ public class Main {
                 list[x].add(y);
                 list[y].add(x);
             }
-            boolean[] visited = new boolean[v+1];
-            int[] color = new int[v+1];
+            int[] visited = new int[v+1];
             flag = false;
             for(int j=1; j<v+1; j++){
-                if(visited[j]) continue;
-                color = new int[v+1];
-                color[j] = 1;
-                dfs(j, visited, color);
+                if(visited[j] != 0) continue;
+                visited[j] = 1;
+                dfs(j, visited);
                 if(flag) break;
             }
             if(flag) sb.append("NO").append("\n");
