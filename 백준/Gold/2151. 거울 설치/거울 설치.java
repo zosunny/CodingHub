@@ -40,24 +40,21 @@ public class Main {
                 int nx = p.x + dx[i];
                 int ny = p.y + dy[i];
                 if(nx<0 || ny<0 || nx>=n || ny>=n || visited[nx][ny] || arr[nx][ny] == '*') continue;
-                // . 인 경우 이전 이동 방향 그대로 통과
-                if(arr[p.x][p.y] == '.' && i == p.prev_d){
-                    pq.add(new Point(nx, ny, p.prev_d, p.mirror));
-                }
-                // ! 인 경우 이전 이동 방향 그대로 통과 or 90도로 바뀌는 경우
+                // . 인 경우 - 이전 이동 방향 그대로 (방문처리 X)
+                if(arr[p.x][p.y] == '.' && i == p.prev_d) pq.add(new Point(nx, ny, p.prev_d, p.mirror));
+                // ! 인 경우 - 이전 이동 방향 그대로 또는 90도 꺾임 (방문처리 O)
                 if(arr[p.x][p.y] == '!'){
-                    if(i == p.prev_d) {
+                    if(((p.prev_d == 0 || p.prev_d == 1) && (i == 2 || i == 3)) || ((p.prev_d == 2 || p.prev_d == 3) && (i == 0 || i == 1))){
+                        pq.add(new Point(nx, ny, i, p.mirror+1));
+                        visited[p.x][p.y] = true;
+                    }else if(i == p.prev_d){
                         pq.add(new Point(nx, ny, p.prev_d, p.mirror));
-                        visited[p.x][p.y] = true;
-                    }
-                    if(((p.prev_d == 0 || p.prev_d == 1) && (i == 2 || i == 3)) || ((p.prev_d == 2 || p.prev_d == 3) && (i == 0 || i == 1))) {
-                        pq.add(new Point(nx, ny, i, p.mirror + 1));
-                        visited[p.x][p.y] = true;
                     }
                 }
-                // # 인 경우 모든 방향 다 가능
-                if(arr[p.x][p.y] == '#') {
+                // # 인 경우 - 모든 방향 (방문처리 O)
+                if(arr[p.x][p.y] == '#'){
                     pq.add(new Point(nx, ny, i, p.mirror));
+                    visited[p.x][p.y] = true;
                 }
             }
         }
