@@ -19,22 +19,23 @@ public class Main {
         dis = new int[n][n];
         for(int i=0; i<n; i++){
             Arrays.fill(dis[i], INF);
-            dis[i][i] = 0;              // 자기자신 거리
+            dis[i][i] = 0;
         }
 
+        // 초기값
         for(int i=0; i<m; i++){
             st = new StringTokenizer(br.readLine());
             int x = Integer.parseInt(st.nextToken());
             int y = Integer.parseInt(st.nextToken());
             int d = Integer.parseInt(st.nextToken());
-            dis[x-1][y-1] = Math.min(dis[x-1][y-1], d);     // 중복 간선은 최솟값만 저장
+            dis[x-1][y-1] = Math.min(dis[x-1][y-1], d);     // 중복간선 최솟값 저장
         }
 
-        // 플로이드-워셜
-        for(int k = 0; k<n; k++){           // 중간 노드
-            for(int i=0; i<n; i++){         // 출발 노드
-                for(int j=0; j<n; j++){     // 도착 노드
-                    if(dis[i][k] != INF && dis[k][j] != INF){       // 지나갈 수 있는 경우만
+        // 플로이드
+        for(int k=0; k<n; k++){
+            for(int i=0; i<n; i++){
+                for(int j=0; j<n; j++){
+                    if(dis[i][k] != INF && dis[k][j] != INF){
                         dis[i][j] = Math.min(dis[i][j], dis[i][k] + dis[k][j]);
                     }
                 }
@@ -45,10 +46,11 @@ public class Main {
         for(int i=0; i<n; i++){
             for(int j=0; j<n; j++){
                 if(dis[i][j] != INF) sb.append(dis[i][j] + " ");
-                else sb.append("0 ");
+                else sb.append(0 + " ");
             }
             sb.append("\n");
         }
+
         System.out.println(sb.toString());
     }
 }
