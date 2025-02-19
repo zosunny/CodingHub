@@ -21,12 +21,10 @@ public class Main {
             for(int j=0; j<w+1; j++){
                 dp[i][j] = dp[i-1][j];
                 if(j > 0) dp[i][j] = Math.max(dp[i][j], dp[i-1][j-1]);
-
-                int idx = (j % 2 == 0) ? 1 : 2;   // 짝수 이동 -> 1번 나무, 홀수 이동 -> 2번 나무
-                if(arr[i] == idx) dp[i][j]++;
+                int idx = j % 2 == 0 ? 1 : 2;
+                if(idx == arr[i]) dp[i][j]++;
             }
         }
-
         int ans = 0;
         for(int i=0; i<w+1; i++){
             ans = Math.max(ans, dp[t][i]);
