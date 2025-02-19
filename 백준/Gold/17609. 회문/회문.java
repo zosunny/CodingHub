@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class Main {
+
     public static int palindrome(int s, int e, int cnt, String str){
         if(cnt > 1) return 2;
         while(s < e){
@@ -20,12 +21,12 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
 
-        int n = Integer.parseInt(br.readLine());
+        int t = Integer.parseInt(br.readLine());
 
-        for(int i=0; i<n; i++){
+        for(int i=0; i<t; i++){
             String str = br.readLine();
             int cnt = palindrome(0, str.length()-1, 0, str);
-            sb.append(cnt + "\n");
+            sb.append(cnt).append("\n");
         }
         System.out.println(sb.toString());
     }
