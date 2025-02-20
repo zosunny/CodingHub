@@ -1,5 +1,10 @@
 import java.util.*;
 
+/*
+    1. 파괴와 복구에 대해 map에 누적합 만들기
+    2. board에 map을 더해서 1 이상인지 확인
+*/
+
 class Solution {
     public int solution(int[][] board, int[][] skill) {
         int answer = 0;
@@ -22,24 +27,24 @@ class Solution {
             map[r2+1][c2+1] += degree;
         }
         
-        // 위 -> 아래
-        for(int i=1; i<=n; i++){
-            for(int j=0; j<=m; j++){
+        // 위 -> 아래로 누적합 만들기
+        for(int i=1; i<n+1; i++){
+            for(int j=0; j<m+1; j++){
                 map[i][j] += map[i-1][j];
             }
         }
         
-        // 왼 -> 오른
-        for(int i=0; i<=n; i++){
-            for(int j=1; j<=m; j++){
+        // 왼 -> 오른으로 누적합 만들기
+        for(int i=0; i<n+1; i++){
+            for(int j=1; j<m+1; j++){
                 map[i][j] += map[i][j-1];
             }
         }
         
+        // board에 map 반영해 파괴된 건물 수 확인
         for(int i=0; i<n; i++){
             for(int j=0; j<m; j++){
-                board[i][j] += map[i][j];
-                if(board[i][j] >= 1) answer++;
+                if(board[i][j] + map[i][j] >= 1) answer++;
             }
         }
         
