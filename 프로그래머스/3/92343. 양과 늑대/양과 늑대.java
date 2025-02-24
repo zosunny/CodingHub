@@ -2,54 +2,48 @@ import java.util.*;
 
 class Solution {
     
-    static int len;
-    static int maxAns;
+    static int n;
+    static int answer;
     static List<Integer>[] list;
     
-    public static void dfs(int sheep, int wolf, List<Integer> node, int[] info){
+    public static void dfs(List<Integer> node, int sheep, int wolf, int[] info){
         
-        maxAns = Math.max(maxAns, sheep);
-            
+        // 양의 수 최댓값 갱신
+        answer = Math.max(answer, sheep);
+        
         for(int i=0; i<node.size(); i++){
-            int x = node.get(i);
-            // System.out.println("노드: " + x);
+            int n = node.get(i);
             
-            // 다음 탐색 가능한 노드들 - 자식 노드
             List<Integer> next = new ArrayList<>(node);
-            next.remove(i);             // 현 노드는 제거
-            next.addAll(list[x]);       // 현 노드의 자식 노드 추가
             
-            if(info[x] == 0) {
-                System.out.println("sheep: " + (sheep+1) + ", wolf: " + wolf);
-                dfs(sheep+1, wolf, next, info);            // 양
-            }
-            else if(sheep > wolf + 1) {
-                System.out.println("sheep: " + sheep + ", wolf: " + (wolf+1));
-                dfs(sheep, wolf+1, next, info);   // 늑대면서 양보다 적을 때
+            if(info[n]  == 0){          // 양인 경우
+                next.remove(i);         // 자기자신 삭제
+                next.addAll(list[n]);   // 자식노드 추가
+                dfs(next, sheep+1, wolf, info);
+            }else if(wolf + 1 < sheep){     // 늑대면서 양보다 수가 적은 경우
+                next.remove(i);
+                next.addAll(list[n]);
+                dfs(next, sheep, wolf+1, info);
             }
         }
-        
     }
     
     public int solution(int[] info, int[][] edges) {
         
-        len = info.length;
-        
-        list = new ArrayList[len];
-        for(int i=0; i<len; i++){
+        n = info.length;
+        list = new ArrayList[n];
+        for(int i=0; i<n; i++){
             list[i] = new ArrayList<>();
         }
         
-        for(int[] edge : edges){
-            list[edge[0]].add(edge[1]);
+        for(int[] e : edges){
+            list[e[0]].add(e[1]);
         }
         
-        // 초기 탐색 가능한 노드
         List<Integer> node = new ArrayList<>();
         node.add(0);
+        dfs(node, 0, 0, info);
         
-        dfs(0, 0, node, info);
-        
-        return maxAns;
+        return answer;
     }
 }
