@@ -11,7 +11,6 @@ import java.util.*;
 class Solution {
     public String solution(int[] numbers) {
         String answer = "";
-        
         int n = numbers.length;
         
         String[] str = new String[n];
@@ -19,7 +18,6 @@ class Solution {
             str[i] = Integer.toString(numbers[i]);
         }
         
-        // 가장 큰 값을 만들어야 하므로 더했을 때 내림 차순 6, 10 -> 610 X 106 O
         Arrays.sort(str, (o1, o2) -> (o2 + o1).compareTo(o1 + o2));
         
         for(int i=0; i<n; i++){
