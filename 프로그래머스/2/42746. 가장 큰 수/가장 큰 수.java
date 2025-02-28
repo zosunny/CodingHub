@@ -4,6 +4,8 @@ import java.util.*;
     개수 <= 100,000
     1. 순열, 백트래킹 -> n! 안됨
     2. 정렬 -> 두개를 문자열로 더한 값을 비교? -> n
+    
+    *** 000 생각하자!!!!!!!
 */
 
 class Solution {
@@ -12,16 +14,17 @@ class Solution {
         
         int n = numbers.length;
         
-        String[] arr = new String[n];
+        String[] str = new String[n];
         for(int i=0; i<n; i++){
-            arr[i] = Integer.toString(numbers[i]);
+            str[i] = Integer.toString(numbers[i]);
         }
         
-        Arrays.sort(arr, (o1, o2) -> (o2 + o1).compareTo(o1 + o2));
+        // 가장 큰 값을 만들어야 하므로 더했을 때 내림 차순 6, 10 -> 610 X 106 O
+        Arrays.sort(str, (o1, o2) -> (o2 + o1).compareTo(o1 + o2));
         
         for(int i=0; i<n; i++){
             if(answer.equals("0")) answer = "";
-            answer += arr[i];
+            answer += str[i];
         }
         
         return answer;
