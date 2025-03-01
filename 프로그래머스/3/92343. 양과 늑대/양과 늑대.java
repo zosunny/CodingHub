@@ -1,11 +1,5 @@
 import java.util.*;
 
-/*
-    1. 양일 때, 늑대여도 양보다 적을 때만 dfs 타면서 양의 최댓값 갱신
-    2. 탐색을 모든 노드에 대해 하는 것이 아닌 현재 노드에서 갈 수 있는 자식 노드 까지만으로 한정
-    3. 양일 때와 늑대여도 양보다 적었던 노드는 다시 탐색하지 않아도 됨. 이를 제외한 노드들만 다음 탐색에 이용
-*/
-
 class Solution {
     
     static int ans;
@@ -34,15 +28,15 @@ class Solution {
     public int solution(int[] info, int[][] edges) {
         
         int n = info.length;
-        int m = edges.length;
         
-        list = new ArrayList[n];
-        for(int i=0; i<n; i++){
+        list = new ArrayList[n+1];
+        for(int i=0; i<n+1; i++){
             list[i] = new ArrayList<>();
         }
         
-        for(int i=0; i<m; i++){
-            list[edges[i][0]].add(edges[i][1]);
+        int m = edges.length;
+        for(int[] e : edges){
+            list[e[0]].add(e[1]);
         }
         
         List<Integer> node = new ArrayList<>();
