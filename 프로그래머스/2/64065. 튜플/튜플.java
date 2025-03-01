@@ -1,25 +1,25 @@
 import java.util.*;
 
-/*
-    중복 가능, 순서 다르면 다른 튜플
-*/
-
 class Solution {
     public int[] solution(String s) {
+        
+        // String[] arr = s.substring(2, s.length()-2).split("\\},\\{");
         
         s = s.substring(2, s.length()-2).replace("},{", "-");
         String[] arr = s.split("-");
         
         Arrays.sort(arr, (o1, o2) -> Integer.compare(o1.length(), o2.length()));
         
-        Set<Integer> set = new HashSet<>();
+        int n = arr.length;
+        int[] answer = new int[n];
         
-        int[] answer = new int[arr.length];
+        Set<Integer> set = new HashSet<>();
         int idx = 0;
         
-        for(String str : arr){
-            for(String num : str.split(",")){
-                int now = Integer.parseInt(num);
+        for(String x : arr){
+            String[] tmp = x.split(",");
+            for(String y : tmp){
+                int now = Integer.parseInt(y);
                 if(!set.contains(now)){
                     set.add(now);
                     answer[idx++] = now;
