@@ -12,22 +12,24 @@ public class Main {
         int k = Integer.parseInt(st.nextToken());
 
         int[] arr = new int[n];
+
         st = new StringTokenizer(br.readLine());
         for(int i=0; i<n; i++){
             arr[i] = Integer.parseInt(st.nextToken());
         }
 
-        int sum = 0;
+        int tmp = 0;
         for(int i=0; i<k; i++){
-            sum += arr[i];
+            tmp += arr[i];
         }
 
-        int ans = sum;
+        int ans = tmp;
         for(int i=k; i<n; i++){
-            sum -= arr[i-k];
-            sum += arr[i];
-            ans = Math.max(ans, sum);
+            tmp -= arr[i-k];
+            tmp += arr[i];
+            ans = Math.max(ans, tmp);
         }
+
         System.out.println(ans);
     }
 }
