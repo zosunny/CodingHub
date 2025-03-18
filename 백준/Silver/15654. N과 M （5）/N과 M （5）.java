@@ -6,6 +6,7 @@ import java.util.StringTokenizer;
 
 public class Main {
 
+
     static int n, m;
     static int[] arr;
     static boolean[] select;
@@ -41,11 +42,13 @@ public class Main {
         for(int i=0; i<n; i++){
             arr[i] = Integer.parseInt(st.nextToken());
         }
+
         Arrays.sort(arr);
+
         select = new boolean[n];
         int[] input = new int[m];
         permu(0, input);
 
-        System.out.println(sb.toString());
+        System.out.println(sb);
     }
 }
