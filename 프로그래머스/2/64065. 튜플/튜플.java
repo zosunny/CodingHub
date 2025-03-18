@@ -3,8 +3,6 @@ import java.util.*;
 class Solution {
     public int[] solution(String s) {
         
-        // String[] arr = s.substring(2, s.length()-2).split("\\},\\{");
-        
         s = s.substring(2, s.length()-2).replace("},{", "-");
         String[] arr = s.split("-");
         
@@ -26,6 +24,7 @@ class Solution {
                 }
             }
         }
+        
         return answer;
     }
 }
