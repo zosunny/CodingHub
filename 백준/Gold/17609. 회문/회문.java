@@ -4,7 +4,7 @@ import java.io.InputStreamReader;
 
 public class Main {
 
-    public static int palindrome(int s, int e, int cnt, String str){
+    public static int palindrome(String str, int s, int e, int cnt){
         if(cnt > 1) return 2;
         while(s < e){
             if(str.charAt(s) == str.charAt(e)){
@@ -12,7 +12,7 @@ public class Main {
                 e--;
                 continue;
             }
-            return Math.min(palindrome(s+1, e, cnt+1, str), palindrome(s, e-1, cnt+1, str));
+            return Math.min(palindrome(str, s+1, e, cnt+1), palindrome(str, s, e-1, cnt+1));
         }
         return cnt;
     }
@@ -23,11 +23,11 @@ public class Main {
 
         int t = Integer.parseInt(br.readLine());
 
-        for(int i=0; i<t; i++){
+        while(t --> 0){
             String str = br.readLine();
-            int cnt = palindrome(0, str.length()-1, 0, str);
-            sb.append(cnt).append("\n");
+            sb.append(palindrome(str, 0, str.length()-1, 0)).append("\n");
         }
-        System.out.println(sb.toString());
+
+        System.out.println(sb);
     }
 }
