@@ -4,23 +4,20 @@ class Solution {
     public int[] solution(String s) {
         
         s = s.substring(2, s.length()-2).replace("},{", "-");
-        String[] arr = s.split("-");
+        String[] str = s.split("-");
         
-        Arrays.sort(arr, (o1, o2) -> Integer.compare(o1.length(), o2.length()));
+        Arrays.sort(str, (o1, o2) -> Integer.compare(o1.length(), o2.length()));
         
-        int n = arr.length;
-        int[] answer = new int[n];
+        Set<String> set = new HashSet<>();
+        int[] answer = new int[str.length];
         
-        Set<Integer> set = new HashSet<>();
         int idx = 0;
-        
-        for(String x : arr){
+        for(String x : str){
             String[] tmp = x.split(",");
             for(String y : tmp){
-                int now = Integer.parseInt(y);
-                if(!set.contains(now)){
-                    set.add(now);
-                    answer[idx++] = now;
+                if(!set.contains(y)) {
+                    set.add(y);
+                    answer[idx++] = Integer.parseInt(y);
                 }
             }
         }
