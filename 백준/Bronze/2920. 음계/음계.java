@@ -1,8 +1,5 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -10,37 +7,19 @@ public class Main {
         StringTokenizer st = new StringTokenizer(br.readLine());
 
         int[] arr = new int[8];
+        int[] asc = {1, 2, 3, 4, 5, 6, 7, 8};
+        int[] desc = {8, 7, 6, 5, 4, 3, 2, 1};
+
         for(int i=0; i<8; i++){
             arr[i] = Integer.parseInt(st.nextToken());
         }
 
-        String origin = "";
-        for(int i=0; i<8; i++){
-            origin += arr[i];
-        }
-
-        Arrays.sort(arr);
-        String asc = "";
-        for(int i=0; i<8; i++){
-            asc += arr[i];
-        }
-
-        if(origin.equals(asc)) {
+        if(Arrays.equals(arr, asc)){
             System.out.println("ascending");
-            return;
-        }
-
-        Arrays.sort(arr);
-        String desc = "";
-        for(int i=7; i>=0; i--){
-            desc += arr[i];
-        }
-
-        if(origin.equals(desc)) {
+        }else if(Arrays.equals(arr, desc)){
             System.out.println("descending");
-            return;
+        }else{
+            System.out.println("mixed");
         }
-
-        System.out.println("mixed");
     }
 }
