@@ -2,36 +2,38 @@ import java.util.*;
 
 class Solution {
     
+    static int n;
     static int answer;
-    static int len;
-    static boolean[] select;
     
-    public static void calc(int[] numbers, int target){
-        int ans = 0;
-        for(int i=0; i<len; i++){
-            if(select[i]) ans += numbers[i];
-            else ans -= numbers[i];
+    public static void calc(int[] input, int[] numbers, int target){
+        int tmp = 0;
+        for(int i=0; i<n; i++){
+            if(input[i] == 0){
+                tmp += numbers[i];
+            }else{
+                tmp -= numbers[i];
+            }
         }
-        // 타겟넘버가 맞으면
-        if(ans == target) answer++;
+        if(tmp == target) answer++;
     }
     
-    public static void subset(int cnt, int[] numbers, int target){
-        if(cnt == len){
-            calc(numbers, target);
+    public static void permu(int cnt, int[] input, int[] numbers, int target){
+        if(cnt == n){
+            calc(input, numbers, target);
             return;
         }
-        select[cnt] = true;
-        subset(cnt+1, numbers, target);
-        select[cnt] = false;
-        subset(cnt+1, numbers, target);
+        for(int i=0; i<2; i++){
+            input[cnt] = i;
+            permu(cnt+1, input, numbers, target);
+        }
     }
     
     public int solution(int[] numbers, int target) {
         
-        len = numbers.length;
-        select = new boolean[len];
-        subset(0, numbers, target);
+        n = numbers.length;
+        
+        int[] input = new int[n];
+        permu(0, input, numbers, target);
         
         return answer;
     }
