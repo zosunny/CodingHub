@@ -1,29 +1,35 @@
+import java.util.*;
+
 class Solution {
     
-    static int ans;
     static int answer;
-    static String[] arr = {"A", "E", "I", "O", "U"};
+    static int ans;
+    static boolean flag;
+    static String[] alpa = {"A", "E", "I", "O", "U"};
     
-    public static void dfs(String now, int cnt, int start, String word){
-        if(cnt == 5) {
-            if(now.equals(word)){
-            answer = ans;
+    public static void dfs(String s, String word, int cnt){
+        if(cnt == 5){
+            if(s.equals(word)){
+                answer = ans;
+                flag = true;
             }
             return;
         }
-        if(now.equals(word)){
+        if(s.equals(word)){
             answer = ans;
+            flag = true;
             return;
         }
-        for(int i=start; i<5; i++){
-            ++ans;
-            dfs(now+arr[i], cnt+1, start, word);
+        for(int i=0; i<5; i++){
+            ans++;
+            dfs(s+alpa[i], word, cnt+1);
+            if(flag) return;
         }
     }
     
     public int solution(String word) {
         
-        dfs("", 0, 0, word);
+        dfs("", word, 0);
         
         return answer;
     }
