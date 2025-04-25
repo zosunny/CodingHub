@@ -18,8 +18,8 @@ public class Main {
         }
 
         int ans = 0;
-        int i = 0;
         int tmp = 0;
+        int i = 0;
 
         for(int j=0; j<n; j++){
             tmp += arr[j];
