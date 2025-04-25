@@ -9,15 +9,16 @@ class Solution {
         
         Arrays.sort(arr, (o1, o2) -> Integer.compare(o1.length(), o2.length()));
         
-        Set<String> set = new HashSet<>();
+        Set<Integer> set = new HashSet<>();
         int idx = 0;
         
-        for(String a : arr){
-            String[] tmp = a.split(",");
-            for(String t : tmp){
-                if(set.contains(t)) continue;
-                answer[idx++] = Integer.parseInt(t);
-                set.add(t);
+        for(String x : arr){
+            String[] tmp = x.split(",");
+            for(String y : tmp){
+                int n = Integer.parseInt(y);
+                if(set.contains(n)) continue;
+                answer[idx++] = n;
+                set.add(n);
             }
         }
         
