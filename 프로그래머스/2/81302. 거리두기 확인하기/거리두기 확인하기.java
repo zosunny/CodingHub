@@ -29,7 +29,7 @@ class Solution {
                 int ny = p.y + dy[i];
                 int nd = p.d + 1;
                 if(nx<0 || ny<0 || nx>=5 || ny>=5 || visited[nx][ny]) continue;
-                // 거리 2일 때 응시자 확인
+                // 거리 2이하일 때 응시자 확인
                 if(nd == 1 && arr[nx][ny] == 'P') return false;
                 if(nd == 2 && arr[nx][ny] == 'P' && arr[p.x][p.y] != 'X') return false;
                 q.add(new Point(nx, ny, nd));
@@ -45,7 +45,9 @@ class Solution {
         for(int i=0; i<5; i++){
             arr = new char[5][5];
             for(int j=0; j<5; j++){
-                arr[j] = places[i][j].toCharArray();
+                for(int k=0; k<5; k++){
+                    arr[j][k] = places[i][j].charAt(k);
+                }
             }
             
             // 응시자 거리 탐색
