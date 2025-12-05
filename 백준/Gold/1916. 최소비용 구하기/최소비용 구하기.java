@@ -1,75 +1,70 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.PriorityQueue;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Main {
-	
-	static int N;
-	static int M;
-	static List<Edge>[] list;
-	static int[] dis;
-	
-	static class Edge implements Comparable<Edge>{
-		int idx;
-		int weight;
-		Edge(int idx, int weight){
-			this.idx = idx;
-			this.weight = weight;
-		}
-		@Override
-		public int compareTo(Edge o) {
-			return this.weight - o.weight;
-		}
-	}
-	
-	public static void dijk(int start) {
-		boolean[] visited = new boolean[N+1];
-		PriorityQueue<Edge> pq = new PriorityQueue<>();
-		pq.add(new Edge(start, 0));
-		dis[start] = 0;
-		while(!pq.isEmpty()) {
-			Edge e = pq.poll();
-			if(visited[e.idx]) continue;
-			visited[e.idx] = true;
-			for(Edge edge : list[e.idx]) {
-				dis[edge.idx] = Math.min(dis[edge.idx], dis[e.idx] + edge.weight);	
-				pq.add(new Edge(edge.idx, dis[edge.idx]));
-			}
-		}
-	}
 
-	public static void main(String[] args) throws IOException {
-			
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		N = Integer.parseInt(st.nextToken());	// 도시의 개수
-		st = new StringTokenizer(br.readLine());
-		M = Integer.parseInt(st.nextToken());	// 버스
-		
-		list = new ArrayList[N+1];
-		for(int i=0; i<N+1; i++) {
-			list[i] = new ArrayList<>();
-		}
-		for(int i=0; i<M; i++) {
-			st = new StringTokenizer(br.readLine());
-			int s = Integer.parseInt(st.nextToken());
-			int e = Integer.parseInt(st.nextToken());
-			int w = Integer.parseInt(st.nextToken());
-			list[s].add(new Edge(e, w));
-		}
-		st = new StringTokenizer(br.readLine());
-		int start = Integer.parseInt(st.nextToken());
-		int target = Integer.parseInt(st.nextToken());
-		
-		dis = new int[N+1];
-		Arrays.fill(dis, Integer.MAX_VALUE);
-		dijk(start);
-        
-		System.out.println(dis[target]);
-	}
+    static int N, M;
+    static List<Edge>[] list;
+    static int[] dis;
+
+    static class Edge implements Comparable<Edge>{
+        int idx, w;
+        Edge(int idx, int w){
+            this.idx = idx;
+            this.w = w;
+        }
+        @Override
+        public int compareTo(Edge o){
+            return this.w - o.w;
+        }
+    }
+
+    public static void dijk(int s){
+        PriorityQueue<Edge> pq = new PriorityQueue<>();
+        boolean[] visited = new boolean[N+1];
+        pq.add(new Edge(s, 0));
+        dis[s] = 0;
+        while(!pq.isEmpty()){
+            Edge edge = pq.poll();
+            if(visited[edge.idx]) continue;
+            visited[edge.idx] = true;
+            for(Edge e : list[edge.idx]){
+                dis[e.idx] = Math.min(dis[e.idx], dis[edge.idx] + e.w);
+                pq.add(new Edge(e.idx, dis[e.idx]));
+            }
+        }
+    }
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+        N = Integer.parseInt(br.readLine());
+        M = Integer.parseInt(br.readLine());
+
+        list = new ArrayList[N+1];
+        for(int i=0; i<N+1; i++){
+            list[i] = new ArrayList<>();
+        }
+
+        for(int i=0; i<M; i++){
+            st = new StringTokenizer(br.readLine());
+            int s = Integer.parseInt(st.nextToken());
+            int e = Integer.parseInt(st.nextToken());
+            int w = Integer.parseInt(st.nextToken());
+            list[s].add(new Edge(e, w));
+        }
+
+        st = new StringTokenizer(br.readLine());
+        int s = Integer.parseInt(st.nextToken());
+        int t = Integer.parseInt(st.nextToken());
+
+        dis = new int[N+1];
+        Arrays.fill(dis, Integer.MAX_VALUE);
+
+        dijk(s);
+
+        System.out.println(dis[t]);
+    }
 }
