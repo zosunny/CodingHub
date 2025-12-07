@@ -1,38 +1,45 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Arrays;
-import java.util.Scanner;
+import java.util.StringTokenizer;
 
 public class Main {
-	
-	public static void binarySearch_loop(long[] arr, int n) {
-		long lowerBound = 1;
-		long upperBound = arr[arr.length-1];
-		long max = 0;
-		while(lowerBound <= upperBound) {
-			long mid = (upperBound + lowerBound) / 2;
-			long sum = 0;
-			for(int i=0; i<arr.length; i++) {
-				sum += arr[i] / mid;
-			}
-			if(sum < n) {
-				upperBound = mid - 1;
-			}else {
-				max = mid;
-				lowerBound = mid + 1;
-			}
-		}
-		System.out.println(max);
-	}
 
-	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
-		int K = sc.nextInt();
-		int N = sc.nextInt();
-		long[] line = new long[K];
-		for(int i=0; i<K; i++) {
-			line[i] = sc.nextInt();
-		}
-		Arrays.sort(line);
-		binarySearch_loop(line, N);
-		sc.close();
-	}
+    static int K, N;
+    static long ans = Long.MIN_VALUE;
+    static int[] arr;
+
+    public static int calc(long len){
+        int tmp = 0;
+        for(int i=0; i<K; i++){
+            tmp += arr[i] / len;
+        }
+        return tmp;
+    }
+
+    public static void binarySearch(long s, long e){
+        if(s > e) return;
+        long mid = (s + e) / 2;
+        if(calc(mid) >= N){
+            ans = Math.max(ans, mid);
+            binarySearch(mid+1, e);
+        }
+        else binarySearch(s, mid-1);
+    }
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        K = Integer.parseInt(st.nextToken());
+        N = Integer.parseInt(st.nextToken());
+        arr = new int[K];
+        for(int i=0; i<K; i++){
+            arr[i] = Integer.parseInt(br.readLine());
+        }
+        Arrays.sort(arr);
+        binarySearch(1, arr[K-1]);
+
+        System.out.println(ans);
+    }
 }
