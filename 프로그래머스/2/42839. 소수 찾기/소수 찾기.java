@@ -1,53 +1,60 @@
+/*
+    만들 수 있는 소수 개수 (11 = 011)
+    
+    1. 배열로 분리
+    2. 부분집합
+    3. 순열
+    4. 맨 앞 0 확인
+    5. 소수 검증
+    -> 2^10 + 10!
+*/
 import java.util.*;
+
 
 class Solution {
     
-    static int n;
-    static int answer;
+    static int len;
+    static int ans;
     static int[] arr;
     static Set<Integer> set;
     
-    public static boolean isPrime(int x){
-        if(x < 2) return false;
-        for(int i=2; i<(int)Math.sqrt(x)+1; i++){
-            if(x % i == 0) return false;
+    public static boolean isPrime(int num){
+        if(num < 2) return false;
+        for(int i=2; i<(int)Math.sqrt(num)+1; i++){
+            if(num % i == 0) return false;
         }
         return true;
     }
     
-    public static void permu(int cnt, int[] input, int s, List<Integer> list, boolean[] visit){
-        if(cnt == s){
+    public static void permu(int cnt, List<Integer> list, int n, int[] input, boolean[] select){
+        if(cnt == n){
             StringBuilder sb = new StringBuilder();
-            for(int i=0; i<s; i++){
-                if(visit[i]) sb.append(list.get(input[i]));
+            for(int i=0; i<n; i++){
+                sb.append(input[i]);
             }
             String str = sb.toString();
-            if(str.length() > 0 && isPrime(Integer.parseInt(str))){
-                set.add(Integer.parseInt(str));
-            }
+            if(str.length() != 0 && isPrime(Integer.parseInt(str))) set.add(Integer.parseInt(str));
             return;
         }
-        for(int i=0; i<s; i++){
-            if(visit[i]) continue;
-            visit[i] = true;
-            input[cnt] = i;
-            permu(cnt+1, input, s, list, visit);
-            visit[i] = false;
+        for(int i=0; i<n; i++){
+            if(select[i]) continue;
+            input[cnt] = list.get(i);
+            select[i] = true;
+            permu(cnt+1, list, n, input, select);
+            select[i] = false;
         }
     }
     
     public static void subset(int cnt, boolean[] select){
-        List<Integer> list = new ArrayList<>();
-        if(cnt == n){
-            for(int i=0; i<n; i++){
-                if(select[i]) {
-                    list.add(arr[i]);
-                }
+        if(cnt == len){
+            List<Integer> list = new ArrayList<>();
+            for(int i=0; i<len; i++){
+                if(select[i]) list.add(arr[i]);
             }
-            int s = list.size();
-            int[] input = new int[s];
-            boolean[] visit = new boolean[s];
-            permu(0, input, s, list, visit);
+            int n = list.size();
+            int[] input = new int[len];
+            boolean[] visited = new boolean[len];
+            permu(0, list, n, input, visited);
             return;
         }
         select[cnt] = true;
@@ -57,16 +64,15 @@ class Solution {
     }
     
     public int solution(String numbers) {
-        n = numbers.length();
-        arr = new int[n];
+        len = numbers.length();
+        set = new HashSet<>();
         
-        for(int i=0; i<n; i++){
+        arr = new int[len];
+        for(int i=0; i<len; i++){
             arr[i] = numbers.charAt(i) - '0';
         }
         
-        set = new HashSet<>();
-        
-        boolean[] select = new boolean[n];
+        boolean[] select = new boolean[len];
         subset(0, select);
         
         return set.size();
