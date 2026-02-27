@@ -1,5 +1,10 @@
 import java.util.*;
 
+/*
+    1. 순열 -> 100,000! X
+    2. 비교정렬 -> nlogn?
+*/
+
 class Solution {
     public String solution(int[] numbers) {
         String answer = "";
