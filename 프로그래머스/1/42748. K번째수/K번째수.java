@@ -1,29 +1,25 @@
 import java.util.*;
 
-/*
-    array를 commands 기준에 따라 탐색 -> 100 * 50
-*/
-
 class Solution {
     public int[] solution(int[] array, int[][] commands) {
+        int len = commands.length;
+        int[] answer = new int[len];
+        int[] tmp = {};
         
-        int n = commands.length;
-        
-        int[] ans = new int[n];
-        for(int i=0; i<n; i++){
-            int s = commands[i][0] - 1;
-            int e = commands[i][1] - 1;
-            int k = commands[i][2] - 1;
-            
-            int[] tmp = new int[e-s+1];
+        int num = 0;
+        for(int n=0; n<len; n++){
+            int i = commands[n][0];
+            int j = commands[n][1];
+            int k = commands[n][2];
+            tmp = new int[j-i+1];
             int idx = 0;
-            for(int j=s; j<e+1; j++){
-                tmp[idx++] = array[j];
+            for(int m=i-1; m<j; m++){
+                tmp[idx++] = array[m];
             }
-            
             Arrays.sort(tmp);
-            ans[i] = tmp[k];
+            answer[num++] = tmp[k-1];
         }
-        return ans;
+        
+        return answer;
     }
 }
