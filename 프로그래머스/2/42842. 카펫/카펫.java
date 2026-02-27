@@ -1,13 +1,25 @@
+import java.util.*;
+
+/*
+8 <= brown <= 5,000
+1 <= yellow <= 2,000,000
+w > h
+
+w * h = b + y
+w + h = b/2 + 2
+*/
+
 class Solution {
     public int[] solution(int brown, int yellow) {
         int[] answer = new int[2];
-
-        for(int x=brown; x>=0; x--){
-            int y = (brown / 2) + 2 - x;
-            if(x < y) continue;
-            if(x * y == (brown + yellow)){
-                answer[0] = x;
-                answer[1] = y;
+        
+        for(int w=brown/2; w>=0; w--){
+            int h = brown / 2 + 2 - w;
+            if(w < h) continue;
+            if(w * h == brown + yellow){
+                answer[0] = w;
+                answer[1] = h;
+                break;
             }
         }
         return answer;
