@@ -1,11 +1,12 @@
 import java.util.*;
 
+/*
+    상대팀 진영 도착위해 지나가야 하는 칸의 개수의 최솟값, 도착할 수 없으면 -1
+    0: 벽, 1: 길
+    (0, 0) -> (n-1, m-1)
+*/
+
 class Solution {
-    
-    static int answer = Integer.MAX_VALUE;
-    static int N, M;
-    static int[] dx = {-1, 1, 0, 0};
-    static int[] dy = {0, 0, -1, 1};
     
     static class Point{
         int x, y;
@@ -17,28 +18,28 @@ class Solution {
         }
     }
     
-    public static void bfs(int x, int y, int[][] maps){
+    static int n;
+    static int m;
+    static int ans = Integer.MAX_VALUE;
+    static int[] dx = {-1, 1, 0, 0};
+    static int[] dy = {0, 0, -1, 1};
+    
+    public static void bfs(int[][] maps){
         Queue<Point> q = new LinkedList<>();
-        boolean[][] visited = new boolean[N][M];
-        q.add(new Point(x, y, 1));
-        visited[x][y] = true;
+        boolean[][] visited = new boolean[n][m];
+        q.add(new Point(0, 0, 1));
+        visited[0][0] = true;
         while(!q.isEmpty()){
             Point p = q.poll();
-            // 상대 팀 진영에 도착한 경우
-            if(p.x == N-1 && p.y == M-1){
-                // 최단거리로 스위치
-                answer = Math.min(answer, p.dis);
+            if(p.x == n-1 && p.y == m-1){
+                ans = Math.min(ans, p.dis);
             }
-            // 4방 탐색
             for(int i=0; i<4; i++){
                 int nx = p.x + dx[i];
                 int ny = p.y + dy[i];
                 int ndis = p.dis + 1;
-                // 못지나가는 경우
-                if(nx<0 || ny<0 || nx>=N || ny>=M || visited[nx][ny] || maps[nx][ny]==0) continue;
-                // 브루트포스 - 이동거리가 이미 최종 최단거리를 넘은 경우
-                if(ndis >= answer) continue;
-                // 다음 위치로 진행
+                if(nx<0 || ny<0 || nx>=n || ny>=m || maps[nx][ny]==0 || visited[nx][ny]) continue;
+                if(ndis >= ans) continue;
                 q.add(new Point(nx, ny, ndis));
                 visited[nx][ny] = true;
             }
@@ -47,11 +48,11 @@ class Solution {
     
     public int solution(int[][] maps) {
         
-        N = maps.length;
-        M = maps[0].length;
+        n = maps.length;
+        m = maps[0].length;
         
-        bfs(0, 0, maps);
+        bfs(maps);
         
-        return answer == Integer.MAX_VALUE ? -1 : answer;
+        return ans == Integer.MAX_VALUE ? -1 : ans;
     }
 }
