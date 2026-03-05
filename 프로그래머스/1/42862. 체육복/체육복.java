@@ -1,49 +1,56 @@
 import java.util.*;
 
+/*
+    체육수업을 들을 수 있는 학생의 최댓값
+    
+    1) lost와 reserve에 같은 학생번호 있는지 확인
+    2) lost에서 일단 앞번호에서 빌릴 수 있는지 확인
+    3) 안되면 뒷번호에서 빌릴 수 있는지 확인
+    4) n - lost에 있는 학생수
+*/
+
 class Solution {
-    public int solution(int n, int[] lost, int[] reserve) {
-        Arrays.sort(lost);
-        Arrays.sort(reserve);
+    public int solution(int N, int[] lost, int[] reserve) {
         int answer = 0;
-        int [] have = new int[n];
-        boolean[] check = new boolean[n];
-        Arrays.fill(have, 1);
-        // 잃어버린 경우
-        for(int i=0; i<lost.length; i++){
-            have[lost[i]-1] = 0;
-        }
-        // 나눠줄 수 있는 경우 - 1. 내꺼 확인
-        for(int i=0; i<reserve.length; i++){
-            int now = reserve[i];
-            // 잃어버린 학생였음 T로 변경 먼저 수행
-            if(have[now-1]==0) {
-                have[now-1] = 1;
-                check[now-1] = true;
+        int n = lost.length;
+        int m = reserve.length;
+        
+        Arrays.sort(lost);
+        
+        // 1)
+        for(int i=0; i<n; i++){
+            for(int j=0; j<m; j++){
+                if(lost[i] == reserve[j]){
+                    lost[i] = -1;
+                    reserve[j] = -1;
+                }
             }
         }
-        // 나눠줄 수 있는 경우 - 2. 앞 뒤 확인
-        for(int i=0; i<reserve.length; i++){
-            int now = reserve[i];
-            if(check[now-1]) continue;
-            System.out.println("체육복 있는 학생: " + now);
-            // 그외 앞 뒤 확인
-                // 앞 학생 없는 경우
-                if((now-2)>=0 && have[now-2]==0) {
-                    have[now-2] = 1;
-                    System.out.println((now) + "이 " + (now-1) + "한테 빌려줌");
-                    continue;
-                // 뒤 학생 없는 경우
-                }else if(now<n && have[now]==0){
-                    have[now] = 1;
-                    System.out.println((now) + "이 " + (now+1) + "한테 빌려줌");
-                    continue;
-                }
+        
+        Set<Integer> set = new HashSet<>();
+        for(int x : reserve){
+            if(x != -1) set.add(x);
         }
-        // 학생 수 계산
-        for(int x : have){
-            System.out.print(x + " ");
-            if(x==1) answer++;
+        
+        
+        // 2), 3)
+        for(int i=0; i<n; i++){
+            if(lost[i] == -1) {
+                continue;
+            }
+            // 앞번호에 있는z경우, 뒷번호에 있는경우
+            if(set.contains(lost[i] - 1)) {
+                set.remove(lost[i] - 1);
+                lost[i] = -1;
+                continue;
+            }else if(set.contains(lost[i] + 1)) {
+                set.remove(lost[i] + 1);
+                lost[i] = -1;
+                continue;
+            }
+            N--;
         }
-        return answer;
+        
+        return N;
     }
 }
