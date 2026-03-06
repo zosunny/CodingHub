@@ -36,11 +36,12 @@ class Solution {
         }
     }
     
+    
     public long solution(int n, int[] times) {
         
         len = times.length;
-        Arrays.sort(times);
         
+        Arrays.sort(times);
         binarySearch(1L, (long)times[len-1]*n, n, times);
         
         return ans;
