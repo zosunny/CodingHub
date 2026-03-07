@@ -1,28 +1,24 @@
 import java.util.*;
 
 /*
-    가장 짧은 변환 과정 -> bfs
-    변환할 수 없는 경우 0
-    
-    1. 배열돌면서 현재 단어랑 비교
-    2. 방문전이고, 알파벳 1개만 다를 경우 큐에 넣기
-    
+    가장 짧은 변환 과정
+    words에서 변환 가능한 단어, 변환 과정 수 q에 저장
 */
 
 class Solution {
     
-    static class Point{
-        String str;
-        int cnt;
-        Point(String str, int cnt){
-            this.str = str;
-            this.cnt = cnt;
-        }
-    }
-    
     static int n;
     static int len;
     static int ans = Integer.MAX_VALUE;
+    
+    static class Point{
+        String word;
+        int cnt;
+        Point(String word, int cnt){
+            this.word = word;
+            this.cnt = cnt;
+        }
+    }
     
     public static void bfs(String begin, String target, String[] words){
         Queue<Point> q = new LinkedList<>();
@@ -30,18 +26,16 @@ class Solution {
         q.add(new Point(begin, 0));
         while(!q.isEmpty()){
             Point p = q.poll();
-            if(p.str.equals(target)){
+            if(p.word.equals(target)){
                 ans = Math.min(ans, p.cnt);
             }
             for(int i=0; i<n; i++){
                 if(visited[i]) continue;
-                // 알파벳 비교
-                int tmp = 0;
+                int num = 0;
                 for(int j=0; j<len; j++){
-                    if(p.str.charAt(j) != words[i].charAt(j)) tmp++;
+                    if(p.word.charAt(j) != words[i].charAt(j)) num++;
                 }
-                // 1개만 다르면
-                if(tmp == 1){
+                if(num == 1){
                     q.add(new Point(words[i], p.cnt+1));
                     visited[i] = true;
                 }
