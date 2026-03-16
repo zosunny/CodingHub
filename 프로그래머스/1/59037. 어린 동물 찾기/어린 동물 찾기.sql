@@ -1,0 +1,8 @@
+-- 코드를 입력하세요
+-- 젊은 동물1의 아이디와 이름
+-- 아이디 순
+
+SELECT ANIMAL_ID, NAME
+FROM ANIMAL_INS
+WHERE INTAKE_CONDITION NOT IN('Aged')
+ORDER BY 1;
