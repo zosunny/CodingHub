@@ -9,7 +9,7 @@ public class Main {
         StringTokenizer st;
         int N = Integer.parseInt(br.readLine());
 
-        int[][] arr = new int[N+1][2];
+        int[][] arr = new int[N+2][2];
         for(int i=1; i<N+1; i++){
             st = new StringTokenizer(br.readLine());
             arr[i][0] = Integer.parseInt(st.nextToken());
@@ -17,9 +17,10 @@ public class Main {
         }
 
         int[] dp = new int[N+2];
-        for(int i=1; i<N+2; i++) {
+        for(int i=1; i<N+2; i++){
+            // 오늘 상담 안하는 경우
             dp[i] = Math.max(dp[i], dp[i-1]);
-            if(i > N) continue;
+            // 오늘 상담 하는 경우
             int next = i + arr[i][0];
             if(next > N+1) continue;
             dp[next] = Math.max(dp[next], dp[i] + arr[i][1]);
