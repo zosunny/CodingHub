@@ -2,42 +2,42 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 
 public class Main {
-
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int n = Integer.parseInt(br.readLine());
-        int[] arr = new int[n];
 
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
+        int N = Integer.parseInt(br.readLine());
+
+        int[] arr = new int[N];
         StringTokenizer st = new StringTokenizer(br.readLine());
-        for(int i=0; i<n; i++){
+        for(int i=0; i<N; i++){
             arr[i] = Integer.parseInt(st.nextToken());
         }
 
-        List<Integer> list = new ArrayList<>();
-        list.add(Integer.MIN_VALUE);
+        int[] dp = new int[N];
+        Arrays.fill(dp, 1);
 
-        for(int i=0; i<n; i++){
-            int now = arr[i];
+        List<Integer> tail = new ArrayList<>();
+        tail.add(arr[0]);
 
-            // 증가수열 마지막 수보다 큰 경우
-            if(now > list.get(list.size() - 1)) list.add(now);
+        for(int i=1; i<N; i++){
+            if(arr[i] > tail.get(tail.size()-1)) tail.add(arr[i]);
             else{
                 int left = 0;
-                int right = list.size() - 1;
-                // 이분탐색
+                int right = tail.size() - 1;
                 while(left < right){
                     int mid = (left + right) / 2;
-                    if(list.get(mid) >= now) right = mid;
-                    else left = mid + 1;
+                    if(arr[i] > tail.get(mid)) left = mid + 1;
+                    else right = mid;
                 }
-                list.set(right, now);
+                tail.set(right, arr[i]);
             }
         }
-
-        System.out.println(list.size() - 1);
+        System.out.println(tail.size());
     }
 }
