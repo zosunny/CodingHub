@@ -19,14 +19,10 @@ public class Main {
 
         int[] dpHigh = new int[3];
         int[] dpLow = new int[3];
-        for(int i=0; i<3; i++){
-            dpHigh[i] = arr[0][i];
-            dpLow[i] = arr[0][i];
-        }
-
         int[] tmpHigh = new int[3];
         int[] tmpLow = new int[3];
-        for(int i=1; i<N; i++){
+        
+        for(int i=0; i<N; i++){
             // 한 칸씩 누적 합 (최대)
             tmpHigh[0] = arr[i][0] + Math.max(dpHigh[0], dpHigh[1]);
             tmpHigh[1] = arr[i][1] + Math.max(Math.max(dpHigh[0], dpHigh[1]), dpHigh[2]);
